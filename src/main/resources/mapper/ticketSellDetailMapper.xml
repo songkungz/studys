@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.study.mapper.WlhTicketSellMapper">
+    <resultMap id="ticketSellVO" type="com.example.study.vo.TicketChannelVO">
+        <result column="sell_source" property="channelName"></result>
+<!--        num 该列为sum(ticket_sell_count)的别名-->
+        <result column="num" property="count"></result>
+        <result column="sell_time" property="date"></result>
+    </resultMap>
+    <select id="selectTicketSellCount" resultMap="ticketSellVO">
+        select sum(ticket_sell_count) as num,sell_source,sell_time
+        FROM tb_ticket_sell_detail as tsd，
+        where DATE_FORMAT(sell_time,'%Y-%m-%d')=CURRENT_DATE
+        group by sell_source,sell_time
+    </select>
+    <select id="selectTicketSellTrend" resultMap="ticketSellVO">
+        select  sum(ticket_sell_count) as num,sell_source,DATE_FORMAT(sell_time,'%Y-%m-%d %H:%i:%s') as sell_time
+        from tb_ticket_sell_detail as tsd
+        where tsd.sell_time
+        BETWEEN DATE_SUB(CURDATE(), INTERVAL 1 MONTH)
+        and NOW()
+        GROUP BY sell_time,sell_source
+        ORDER BY num desc, sell_time;
+    </select>
+    <select id="selectAllTicketSellCount">
+
+    </select>
+    <select id="selectTicketSellCountByChannel">
+
+    </select>
+</mapper>

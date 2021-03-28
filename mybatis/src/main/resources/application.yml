@@ -1,0 +1,8 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/work?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+    password: root
+    username: root  #注意这里是username
+mybatis:
+  mapper-locations: classpath:/mapper/*.xml
